@@ -2,31 +2,36 @@
 #include <cmath>
 #include <algorithm>
 #include <stdexcept>
+#include <cfloat>
 
-bool Square::eq(float a, float b) {
-    const float EPS = 1e-6f;
-    return fabs(a - b) < EPS;
+Square::Point::Point(const float x, const float y) {
+    this->x = x;
+    this->y = y;
 }
 
-float Square::distance(float x1, float y1, float x2, float y2) {
-    return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+bool Square::eq(const float a, const float b) {
+    return fabs(a - b) < DBL_EPSILON;
 }
 
-Square::Square(float Ax, float Ay, float Bx, float By, float Cx, float Cy) {
-    this->Ax = Ax;
-    this->Ay = Ay;
-    this->Bx = Bx;
-    this->By = By;
-    this->Cx = Cx;
-    this->Cy = Cy;
+float Square::distance(const Point first, const Point second) {
+    return sqrt(pow(first.x - second.x, 2) + pow(first.y - second.y, 2));
+}
 
+Square::Square(
+    const float Ax,
+    const float Ay,
+    const float Bx,
+    const float By,
+    const float Cx,
+    const float Cy
+) : A(Ax, Ay), B(Bx, By), C(Cx, Cy) {
     checkSquare();
 }
 
-void Square::checkSquare() {
-    float D1 = distance(Ax, Ay, Bx, By);
-    float D2 = distance(Ax, Ay, Cx, Cy);
-    float D3 = distance(Bx, By, Cx, Cy);
+void Square::checkSquare() const {
+    const float D1 = distance(A, B);
+    const float D2 = distance(A, C);
+    const float D3 = distance(B, C);
 
     float ds[3] = {D1, D2, D3};
     std::sort(ds, ds + 3);
@@ -40,10 +45,10 @@ void Square::checkSquare() {
     }
 }
 
-float Square::perimeter() {
-    float D1 = distance(Ax, Ay, Bx, By);
-    float D2 = distance(Ax, Ay, Cx, Cy);
-    float D3 = distance(Bx, By, Cx, Cy);
+float Square::perimeter() const {
+    const float D1 = distance(A, B);
+    const float D2 = distance(A, C);
+    const float D3 = distance(B, C);
 
     float ds[3] = {D1, D2, D3};
     std::sort(ds, ds + 3);
@@ -51,10 +56,10 @@ float Square::perimeter() {
     return 4 * ds[0];
 }
 
-float Square::area() {
-    float D1 = distance(Ax, Ay, Bx, By);
-    float D2 = distance(Ax, Ay, Cx, Cy);
-    float D3 = distance(Bx, By, Cx, Cy);
+float Square::area() const {
+    const float D1 = distance(A, B);
+    const float D2 = distance(A, C);
+    const float D3 = distance(B, C);
 
     float ds[3] = {D1, D2, D3};
     std::sort(ds, ds + 3);
