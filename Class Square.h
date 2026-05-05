@@ -2,15 +2,32 @@
 
 class Square {
 private:
-    float Ax, Ay, Bx, By, Cx, Cy;
+    struct Point {
+        float x;
+        float y;
 
-    static bool eq(float a, float b);
-    float distance(float x1, float y1, float x2, float y2);
-    void checkSquare();
+        Point(const float x, const float y);
+    };
+
+    Point A;
+    Point B;
+    Point C;
+
+    static bool eq(const float a, const float b);
+    static float distance(const Point first, const Point second);
+
+    void checkSquare() const;
 
 public:
-    Square(float Ax, float Ay, float Bx, float By, float Cx, float Cy);
+    Square(
+        const float Ax,
+        const float Ay,
+        const float Bx,
+        const float By,
+        const float Cx,
+        const float Cy
+    );
 
-    float perimeter();
-    float area();
+    float perimeter() const;
+    float area() const;
 };
