@@ -1,115 +1,45 @@
-#include "../include/ClassPoint.h"
+#pragma once
 
-int Point::max_size_x = 0;
-int Point::max_size_y = 0;
+#include <iostream>
 
-void Point::checkPoint(void)
+using namespace std;
+
+/**
+ * @brief Класс "Точка"
+ */
+class Point
 {
-	if (checkX(x) * checkY(y) == 0)
-	{
-		cerr << "Точка лежит вне 'экрана'" << endl;
-		exit(1);
-	}
-}
+private:
+    int x;
+    int y;
 
-bool Point::checkX(const int x)
-{
-	if (x < 0 || x > max_size_x)
-	{
-		return false;
-	}
-	return true;
-}
+    static int max_size_x;
+    static int max_size_y;
 
-bool Point::checkY(const int y)
-{
-	if (y < 0 || y > max_size_y)
-	{
-		return false;
-	}
-	return true;
-}
+    void checkPoint(void);
+    bool checkX(const int x);
+    bool checkY(const int y);
 
-Point::Point(const int x, const int y)
-{
-	this->x = x;
-	this->y = y;
+public:
+    Point(const int x = 0, const int y = 0);
 
-	checkPoint();
-}
+    Point(const Point& p);
+    Point(Point&& p);
 
-int Point::getX(void) const
-{
-	return x;
-}
+    int getX(void) const;
+    int getY(void) const;
 
-int Point::getY(void) const
-{
-	return y;
-}
+    static void getScreenDimensions(const int x, const int y);
 
-void Point::getScreenDimensions(const int x, const int y)
-{
-	if (x < 0 || y < 0)
-	{
-		cerr << "Недопустимые значения" << endl;
-		exit(1);
-	}
-	else
-	{
-		max_size_x = x;
-		max_size_y = y;
-	}
-}
+    static int get_max_size_x(void);
+    static int get_max_size_y(void);
 
-int Point::get_max_size_x(void)
-{
-	return max_size_x;
-}
+    void operator=(const Point& other);
+    void operator=(Point&& other);
 
-int Point::get_max_size_y(void)
-{
-	return max_size_y;
-}
+    bool operator==(const Point& other) const;
+    bool operator!=(const Point& other) const;
 
-
-
-void Point::operator = (const Point& other)
-{
-	this->x = other.x;
-	this->y = other.y;
-}
-
-bool Point::operator == (const Point& other) const
-{
-	return (this->x == other.x && this->y == other.y);
-}
-
-bool Point::operator != (const Point& other) const
-{
-	return !(*this == other);
-}
-
-ostream& operator << (ostream& output, const Point& point)
-{
-	output << "(" << point.x << ", " << point.y << ")";
-	return output;
-}
-
-istream& operator >> (istream& input, Point& point)
-{
-	int x = 0;
-	int y = 0;
-	input >> x >> y;
-	if (input.fail())
-	{
-		cerr << "Ошибка чтения" << endl;
-		exit(1);
-	}
-
-	point.x = x;
-	point.y = y;
-	point.checkPoint();
-
-	return input;
-}
+    friend ostream& operator<<(ostream& output, const Point& point);
+    friend istream& operator>>(istream& input, Point& point);
+};
