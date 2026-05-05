@@ -1,45 +1,136 @@
-#pragma once
+#include "../include/ClassPoint.h"
 
-#include <iostream>
+#include <cstdlib>
 
-using namespace std;
+int Point::max_size_x = 0;
+int Point::max_size_y = 0;
 
-/**
- * @brief Класс "Точка"
- */
-class Point
+void Point::checkPoint(void)
 {
-private:
-    int x;
-    int y;
+    if (!checkX(x) || !checkY(y))
+    {
+        cerr << "Точка лежит вне экрана" << endl;
+        exit(1);
+    }
+}
 
-    static int max_size_x;
-    static int max_size_y;
+bool Point::checkX(const int x)
+{
+    if (x < 0 || x > max_size_x)
+    {
+        return false;
+    }
 
-    void checkPoint(void);
-    bool checkX(const int x);
-    bool checkY(const int y);
+    return true;
+}
 
-public:
-    Point(const int x = 0, const int y = 0);
+bool Point::checkY(const int y)
+{
+    if (y < 0 || y > max_size_y)
+    {
+        return false;
+    }
 
-    Point(const Point& p);
-    Point(Point&& p);
+    return true;
+}
 
-    int getX(void) const;
-    int getY(void) const;
+Point::Point(const int x, const int y)
+{
+    this->x = x;
+    this->y = y;
 
-    static void getScreenDimensions(const int x, const int y);
+    checkPoint();
+}
 
-    static int get_max_size_x(void);
-    static int get_max_size_y(void);
+Point::Point(const Point& p)
+{
+    this->x = p.x;
+    this->y = p.y;
+}
 
-    void operator=(const Point& other);
-    void operator=(Point&& other);
+Point::Point(Point&& p)
+{
+    this->x = p.x;
+    this->y = p.y;
+}
 
-    bool operator==(const Point& other) const;
-    bool operator!=(const Point& other) const;
+int Point::getX(void) const
+{
+    return x;
+}
 
-    friend ostream& operator<<(ostream& output, const Point& point);
-    friend istream& operator>>(istream& input, Point& point);
-};
+int Point::getY(void) const
+{
+    return y;
+}
+
+void Point::getScreenDimensions(const int x, const int y)
+{
+    if (x < 0 || y < 0)
+    {
+        cerr << "Недопустимые значения размера экрана" << endl;
+        exit(1);
+    }
+
+    max_size_x = x;
+    max_size_y = y;
+}
+
+int Point::get_max_size_x(void)
+{
+    return max_size_x;
+}
+
+int Point::get_max_size_y(void)
+{
+    return max_size_y;
+}
+
+void Point::operator=(const Point& other)
+{
+    this->x = other.x;
+    this->y = other.y;
+}
+
+void Point::operator=(Point&& other)
+{
+    this->x = other.x;
+    this->y = other.y;
+}
+
+bool Point::operator==(const Point& other) const
+{
+    return this->x == other.x && this->y == other.y;
+}
+
+bool Point::operator!=(const Point& other) const
+{
+    return !(*this == other);
+}
+
+ostream& operator<<(ostream& output, const Point& point)
+{
+    output << "(" << point.x << ", " << point.y << ")";
+    return output;
+}
+
+istream& operator>>(istream& input, Point& point)
+{
+    int x = 0;
+    int y = 0;
+
+    input >> x >> y;
+
+    if (input.fail())
+    {
+        cerr << "Ошибка чтения точки" << endl;
+        exit(1);
+    }
+
+    point.x = x;
+    point.y = y;
+
+    point.checkPoint();
+
+    return input;
+}
