@@ -1,66 +1,72 @@
+#include <cstdlib>
 #include <iostream>
+
 #include "../include/ClassEllipse.h"
 #include "../include/ClassPoint.h"
 
 using namespace std;
 
 /**
-* @brief Считывает число введённое с клавиатуры
-* @return Считанное значение
-*/
+ * @brief Считывает число, введённое с клавиатуры
+ * @return Считанное значение
+ */
 int getNumber()
 {
-	int number;
-	cin >> number;
+    int number = 0;
 
-	if (cin.fail())
-	{
-		cerr << "Ошибка чтения" << endl;
-		exit(1);
-	}
+    cin >> number;
 
-	return number;
+    if (cin.fail())
+    {
+        cerr << "Ошибка чтения" << endl;
+        exit(1);
+    }
+
+    return number;
 }
 
 /**
-* @brief Задаёт разрешение "экрана" пользователя
-*/
+ * @brief Задаёт разрешение экрана пользователя
+ */
 void getDemension()
 {
-	int x, y;
-	cout << "Укажите размеры экрана в пикселях (x y): ";
-	cin >> x >> y;
-	Point::getScreenDimensions(x, y);
+    cout << "Укажите размеры экрана в пикселях (x y): ";
+
+    int x = getNumber();
+    int y = getNumber();
+
+    Point::getScreenDimensions(x, y);
 }
 
 /**
-* @brief Точка входа в программу
-* @return Если программа выполнена корректно - 0, иначе 1
-*/
+ * @brief Точка входа в программу
+ * @return Если программа выполнена корректно - 0, иначе 1
+ */
 int main()
 {
-	system("chcp 1251");
-	system("CLS");
+    system("chcp 1251");
+    system("CLS");
 
-	getDemension();
+    getDemension();
 
-	cout << "Создание эллипса\n";
-	cout << "Введите координаты центра (x y): ";
+    cout << "Создание эллипса\n";
+    cout << "Введите координаты центра (x y): ";
 
-	Point center;
-	cin >> center;
+    Point center;
+    cin >> center;
 
-	cout << "Введите первую полуось: ";
-	int a = getNumber();
+    cout << "Введите первую полуось: ";
+    int a = getNumber();
 
-	cout << "Введите вторую полуось: ";
-	int b = getNumber();
+    cout << "Введите вторую полуось: ";
+    int b = getNumber();
 
-	Ellipse ellipse(center, a, b);
+    Ellipse ellipse(center, a, b);
 
-	ellipse.ToString(cout);
-	cout << "\nПлощадь: " << ellipse.getArea() << '\n';
-	cout << "Периметр: " << ellipse.getPerimeter() << '\n';
+    ellipse.ToString(cout);
 
-	return 0;
+    cout << "\nПлощадь: " << ellipse.getArea() << '\n';
+    cout << "Периметр: " << ellipse.getPerimeter() << '\n';
+
+    return 0;
 }
