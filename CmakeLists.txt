@@ -1,0 +1,46 @@
+cmake_minimum_required(VERSION 3.14)
+
+project(Task3)
+
+set(CMAKE_CXX_STANDARD 20)
+
+include(FetchContent)
+
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/refs/heads/main.zip
+)
+
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+
+add_library(core
+        src/ClassStack.cpp
+)
+
+target_include_directories(core PUBLIC
+        include
+)
+
+add_executable(Task3
+        src/main.cpp
+)
+
+target_link_libraries(Task3
+        core
+)
+
+add_executable(tests
+        tests/tests.cpp
+)
+
+target_link_libraries(tests
+        core
+        gtest
+        gtest_main
+)
+
+include(GoogleTest)
+
+gtest_discover_tests(tests)
