@@ -57,7 +57,7 @@ int main()
 
 int getElement()
 {
-    int value;
+    int value = 0;
 
     cin >> value;
 
