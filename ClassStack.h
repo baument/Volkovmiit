@@ -16,9 +16,9 @@ private:
 public:
     Stack();
 
-    Stack(std::initializer_list<int> other);
+    Stack(const std::initializer_list<int> other);
 
-    Stack(std::list<int>& other);
+    Stack(const std::list<int>& other);
 
     Stack(const Stack& other);
 
@@ -34,9 +34,9 @@ public:
 
     bool operator!=(const Stack& other) const;
 
-    int& operator[](size_t index);
+    int& operator[](const size_t index);
 
-    const int& operator[](size_t index) const;
+    const int& operator[](const size_t index) const;
 
     void push(const int& object);
 
