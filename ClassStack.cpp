@@ -14,7 +14,7 @@ Stack::Stack() : data(nullptr), count(0)
 {
 }
 
-Stack::Stack(initializer_list<int> other)
+Stack::Stack(const initializer_list<int> other)
     : data(nullptr), count(other.size())
 {
     data = new int[count];
@@ -27,7 +27,7 @@ Stack::Stack(initializer_list<int> other)
     }
 }
 
-Stack::Stack(list<int>& other)
+Stack::Stack(const list<int>& other)
     : data(nullptr), count(other.size())
 {
     data = new int[count];
@@ -121,7 +121,7 @@ bool Stack::operator!=(const Stack& other) const
     return !(*this == other);
 }
 
-int& Stack::operator[](size_t index)
+int& Stack::operator[](const size_t index)
 {
     if (index >= count)
     {
@@ -131,7 +131,7 @@ int& Stack::operator[](size_t index)
     return data[index];
 }
 
-const int& Stack::operator[](size_t index) const
+const int& Stack::operator[](const size_t index) const
 {
     if (index >= count)
     {
